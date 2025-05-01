@@ -1,12 +1,14 @@
-from flask import Flask, redirect
+from flask import Flask, send_file
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
-def redirect_to_secret(path):
-    return redirect('http://127.0.0.1:5004/secret', code=302)
+@app.route('/')
+def index():
+    return 'server is running...'
+
+@app.route('/flag')
+def flag():
+    return 'CE441{test_flag_value}'
 
 if __name__ == '__main__':
-    from os import getenv
-    app.run(host='0.0.0.0', port=int(getenv('PORT', 10000)))
+    app.run(host='0.0.0.0', port=8000, debug=True)
